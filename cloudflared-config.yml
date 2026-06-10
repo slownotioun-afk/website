@@ -1,0 +1,38 @@
+# ═══════════════════════════════════════════════════════════════
+#  cloudflared config — Cloudflare Tunnel for hamit.org
+#  Location: ~/.cloudflared/config.yml   (inside the LXC)
+#
+#  After editing, restart the tunnel service:
+#    sudo systemctl restart cloudflared
+# ═══════════════════════════════════════════════════════════════
+
+# REPLACE: paste your tunnel UUID here (from: cloudflared tunnel create hamit-tunnel)
+tunnel: REPLACE-WITH-YOUR-TUNNEL-UUID
+
+# Path to the credentials file created by 'cloudflared tunnel create'
+credentials-file: /root/.cloudflared/REPLACE-WITH-YOUR-TUNNEL-UUID.json
+
+# Ingress rules — traffic matching these hostnames gets forwarded
+ingress:
+  # ── Main website ────────────────────────────────────────────
+  - hostname: hamit.org
+    service: http://localhost:3000      # must match PORT in server.ts
+
+  # ── www redirect ────────────────────────────────────────────
+  - hostname: www.hamit.org
+    service: http://localhost:3000      # Cloudflare handles the canonical redirect
+
+  # ── EXAMPLE: expose a second service on a subdomain ─────────
+  # - hostname: app.hamit.org
+  #   service: http://localhost:4000
+  #
+  # - hostname: grafana.hamit.org
+  #   service: http://localhost:3001
+
+  # ── Catch-all (required) ────────────────────────────────────
+  - service: http_status:404
+
+# Optional: enable HTTP/2 origin
+# originRequest:
+#   http2Origin: true
+#   noTLSVerify: false

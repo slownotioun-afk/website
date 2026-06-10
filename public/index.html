@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  ╔══════════════════════════════════════════════════════════╗
+  ║  hamit.org — personal website template                  ║
+  ║  Edit everything between the REPLACE comments.          ║
+  ║  The page is intentionally minimal: no frameworks,      ║
+  ║  no build step needed for the HTML/CSS itself.          ║
+  ╚══════════════════════════════════════════════════════════╝
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- ── REPLACE: page title shown in browser tab ──────── -->
+  <title>Hamit — hamit.org</title>
+  <!-- ──────────────────────────────────────────────────── -->
+
+  <!-- ── REPLACE: description shown in search results ──── -->
+  <meta name="description" content="Personal website of Hamit. Software, projects, and writing." />
+  <!-- ──────────────────────────────────────────────────── -->
+
+  <!-- Open Graph (link previews in Slack, Discord, etc.) -->
+  <!-- ── REPLACE: og tags ───────────────────────────────── -->
+  <meta property="og:title" content="Hamit" />
+  <meta property="og:description" content="Personal website of Hamit." />
+  <meta property="og:url" content="https://hamit.org" />
+  <meta property="og:type" content="website" />
+  <!-- ──────────────────────────────────────────────────── -->
+
+  <!-- Canonical URL — important for SEO -->
+  <link rel="canonical" href="https://hamit.org/" />
+
+  <!-- Favicon — place your favicon.ico in /public -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       DESIGN TOKENS
+       Tweak these to restyle the entire page.
+    ═══════════════════════════════════════════════════ */
+    :root {
+      --bg:        #fafaf8;          /* page background */
+      --fg:        #1a1a1a;          /* main text */
+      --muted:     #555;             /* secondary text */
+      --link:      #0055cc;          /* link colour */
+      --link-vis:  #6b21a8;          /* visited link */
+      --accent:    #0055cc;          /* accent (borders, hr) */
+      --max-w:     680px;            /* readable line length */
+      --font:      Georgia, 'Times New Roman', serif;
+      --font-mono: 'Courier New', Courier, monospace;
+      --font-size: 1.1rem;
+      --line-h:    1.7;
+    }
+
+    /* Optional: dark mode — uncomment to enable
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:    #0f0f0f;
+        --fg:    #e8e8e8;
+        --muted: #999;
+        --link:  #60a5fa;
+        --link-vis: #c084fc;
+        --accent: #60a5fa;
+      }
+    }
+    */
+
+    /* ═══════════════════════════════════════════════════
+       RESET / BASE
+    ═══════════════════════════════════════════════════ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem 1rem;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      font-size: var(--font-size);
+      line-height: var(--line-h);
+      max-width: var(--max-w);
+
+      /* Centre the column on wide screens */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       TYPOGRAPHY
+    ═══════════════════════════════════════════════════ */
+    h1, h2, h3 {
+      font-family: var(--font);
+      line-height: 1.3;
+      margin-top: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 { font-size: 1.9rem; }
+    h2 { font-size: 1.4rem; }
+    h3 { font-size: 1.1rem; }
+
+    p { margin: 1rem 0; }
+
+    a {
+      color: var(--link);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    a:visited { color: var(--link-vis); }
+
+    a:hover, a:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    code, kbd, pre {
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+    }
+
+    pre {
+      background: #f0f0ee;
+      padding: 1rem;
+      overflow-x: auto;
+      border-left: 3px solid var(--accent);
+    }
+
+    blockquote {
+      border-left: 3px solid var(--muted);
+      margin: 1.5rem 0;
+      padding-left: 1rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 2.5rem 0;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       NAV  — pipe-separated links, Stroustrup-style
+    ═══════════════════════════════════════════════════ */
+    nav {
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      color: var(--muted);
+    }
+
+    nav a {
+      color: var(--link);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       SECTION BLOCKS  — used for Projects, Writing etc.
+    ═══════════════════════════════════════════════════ */
+    .section-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 1.5rem;
+    }
+
+    .section-list li {
+      padding: 0.2rem 0;
+    }
+
+    .section-list .meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════ */
+    footer {
+      margin-top: 4rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid #ccc;
+      padding-top: 1.5rem;
+    }
+
+    footer a { color: var(--muted); }
+
+    /* ═══════════════════════════════════════════════════
+       ACCESSIBILITY: skip-to-content link
+    ═══════════════════════════════════════════════════ */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--fg);
+      color: var(--bg);
+      padding: 0.5rem 1rem;
+      z-index: 100;
+    }
+
+    .skip-link:focus { left: 0; }
+
+    /* ═══════════════════════════════════════════════════
+       REDUCED MOTION
+    ═══════════════════════════════════════════════════ */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Accessibility: skip to main content -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ── NAV ─────────────────────────────────────────────
+       REPLACE: add/remove links as needed.
+       Mirror this at the bottom of the page (footer nav).
+  ──────────────────────────────────────────────────────── -->
+  <nav aria-label="Site navigation">
+    <a href="/">home</a> |
+    <a href="/projects">projects</a> |
+    <a href="/writing">writing</a> |
+    <a href="/about">about</a> |
+    <a href="mailto:you@hamit.org">contact</a>
+    <!-- REPLACE: swap 'you@hamit.org' for your real address -->
+  </nav>
+
+  <!-- ── MAIN CONTENT ───────────────────────────────────── -->
+  <main id="main">
+
+    <!-- ── REPLACE: your name / tagline ─────────────────── -->
+    <h1>Hamit</h1>
+    <p>
+      Software developer. I build things, break things, and occasionally
+      write about it. This site is intentionally minimal — it loads fast
+      and stays out of the way.
+    </p>
+    <!-- ──────────────────────────────────────────────────── -->
+
+    <hr />
+
+    <!-- ── PROJECTS SECTION ──────────────────────────────── -->
+    <section aria-labelledby="projects-heading">
+      <h2 id="projects-heading">Projects</h2>
+      <ul class="section-list">
+
+        <!-- REPLACE: each <li> is one project -->
+        <li>
+          <a href="https://github.com/hamit/REPLACE-ME">project-name</a>
+          <span class="meta"> — short one-line description of what it does.</span>
+        </li>
+        <li>
+          <a href="https://github.com/hamit/REPLACE-ME">another-project</a>
+          <span class="meta"> — another short description.</span>
+        </li>
+        <li>
+          <a href="/projects">all projects →</a>
+        </li>
+        <!-- ──────────────────────────────────────────────── -->
+
+      </ul>
+    </section>
+
+    <hr />
+
+    <!-- ── WRITING / BLOG SECTION ────────────────────────── -->
+    <section aria-labelledby="writing-heading">
+      <h2 id="writing-heading">Writing</h2>
+      <ul class="section-list">
+
+        <!-- REPLACE: each <li> is one post -->
+        <li>
+          <a href="/writing/REPLACE-post-slug">Post title goes here</a>
+          <span class="meta"> — 2025-01-01</span>
+        </li>
+        <li>
+          <a href="/writing/REPLACE-post-slug">Another post title</a>
+          <span class="meta"> — 2024-12-15</span>
+        </li>
+        <li>
+          <a href="/writing">all posts →</a>
+        </li>
+        <!-- ──────────────────────────────────────────────── -->
+
+      </ul>
+    </section>
+
+    <hr />
+
+    <!-- ── ELSEWHERE (social / external links) ───────────── -->
+    <section aria-labelledby="elsewhere-heading">
+      <h2 id="elsewhere-heading">Elsewhere</h2>
+      <ul class="section-list">
+
+        <!-- REPLACE: your actual handles/URLs -->
+        <li><a href="https://github.com/REPLACE-ME">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/REPLACE-ME">LinkedIn</a></li>
+        <!-- Add / remove as you like -->
+
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer>
+    <!-- REPLACE: your name and year -->
+    <p>
+      © 2026 Hamit &mdash;
+      <a href="/">home</a> |
+      <a href="/about">about</a> |
+      <a href="mailto:you@hamit.org">contact</a>
+    </p>
+    <!-- Optional: link to source code -->
+    <!-- <p><a href="https://github.com/hamit/hamit.org">source</a></p> -->
+  </footer>
+
+</body>
+</html>

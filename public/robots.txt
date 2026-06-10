@@ -1,0 +1,8 @@
+# https://hamit.org/robots.txt
+User-agent: *
+Allow: /
+
+# REPLACE: uncomment to block specific paths from indexing
+# Disallow: /private/
+
+Sitemap: https://hamit.org/sitemap.xml

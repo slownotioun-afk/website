@@ -1,0 +1,27 @@
+{
+  "name": "hamit-website",
+  "version": "1.0.0",
+  "description": "Personal website for hamit.org — minimal, fast, self-hosted",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node src/server.ts",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "compression": "^1.7.4",
+    "helmet": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/compression": "^1.7.5",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.8.0",
+    "ts-node": "^10.9.2"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
