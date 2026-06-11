@@ -1,0 +1,146 @@
+import { page } from './layout';
+
+export const home = () => page('Hamit', `
+<h1>Hamit</h1>
+<p>Software developer. I build things, break things, and occasionally write about it.</p>
+<p>This site is intentionally minimal &mdash; it loads fast and stays out of the way.</p>
+`);
+
+export const projects = () => page('Projects', `
+<h1>Projects</h1>
+<p>Things I've built or am currently working on.</p>
+<h2>Active</h2>
+<p><strong><a href="https://hamit.org">hamit.org</a></strong></p>
+<p>2025 &mdash; TypeScript &middot; Node<br>
+This website. Express + TypeScript, served via Cloudflare Tunnel. No framework, no build step beyond <code>tsc</code>.</p>
+<hr>
+<h2>Past</h2>
+<p class="muted">Nothing archived yet.</p>
+`);
+
+export const resources = () => page('Resources', `
+<h1>Resources</h1>
+<p>Things worth reading, watching, or revisiting.</p>
+
+<h2>Books</h2>
+<p><a href="https://openlibrary.org/isbn/9780135957059" target="_blank" rel="noopener">The Pragmatic Programmer &#8599;</a><br>
+David Thomas, Andrew Hunt &mdash; ISBN 978-0-13-595705-9</p>
+<p><a href="https://openlibrary.org/isbn/9780262510875" target="_blank" rel="noopener">Structure and Interpretation of Computer Programs &#8599;</a><br>
+Harold Abelson, Gerald Jay Sussman &mdash; ISBN 978-0-26-251087-5</p>
+<hr>
+
+<h2>Videos</h2>
+<p><a href="#">Add a video here</a><br>Author / channel</p>
+<hr>
+
+<h2>Webpages</h2>
+<p><a href="#">Add a webpage here</a><br>One sentence about what it is and why it matters.</p>
+<hr>
+
+<h2>Other</h2>
+<p><a href="#">Add a paper, podcast, or other media here</a><br>Brief note about it.</p>
+`);
+
+export const todo = () => page('To-Do', `
+<h1>To-Do</h1>
+<p class="muted">Saved in your browser. Private to this device.</p>
+<div class="tabs">
+  <button class="tab active" data-f="all" onclick="setFilter('all')">All</button>
+  <button class="tab" data-f="inbox" onclick="setFilter('inbox')">Inbox</button>
+  <button class="tab" data-f="work" onclick="setFilter('work')">Work</button>
+  <button class="tab" data-f="personal" onclick="setFilter('personal')">Personal</button>
+  <button class="tab" data-f="someday" onclick="setFilter('someday')">Someday</button>
+  <button class="tab" data-f="done" onclick="setFilter('done')">Done</button>
+</div>
+<div class="todo-form">
+  <input id="todo-input" type="text" placeholder="New task…" autocomplete="off">
+  <select id="todo-cat">
+    <option value="inbox">Inbox</option>
+    <option value="work">Work</option>
+    <option value="personal">Personal</option>
+    <option value="someday">Someday</option>
+  </select>
+  <button onclick="addTodo()">Add</button>
+</div>
+<div id="todo-list"></div>
+<button class="clear-done" onclick="clearDone()">clear done</button>
+`, '<script src="/todo.js"></script>');
+
+export const calendar = () => page('Calendar', `
+<h1>Calendar</h1>
+<div class="cal-header">
+  <button class="cal-nav" onclick="prevMonth()">&#8592;</button>
+  <span id="cal-title"></span>
+  <button class="cal-nav" onclick="nextMonth()">&#8594;</button>
+  <button class="cal-nav" onclick="goToday()">today</button>
+  <button class="cal-add-btn" onclick="openNewEvent()">+ add</button>
+</div>
+<div id="cal-grid" class="cal-grid"></div>
+<div class="upcoming">
+  <h2>Upcoming</h2>
+  <div id="upcoming-list"></div>
+</div>
+<div id="cal-form" class="cal-form" style="display:none">
+  <h2 id="form-heading">Add event</h2>
+  <div class="field"><label>Title</label><input id="form-title" type="text" placeholder="Event title" onkeydown="if(event.key==='Enter')saveEvent()"></div>
+  <div class="field"><label>Date</label><input id="form-date" type="date"></div>
+  <div class="field"><label>Time <span class="muted">(optional)</span></label><input id="form-time" type="time"></div>
+  <div class="field"><label>Category</label>
+    <select id="form-cat">
+      <option value="work">Work</option>
+      <option value="personal">Personal</option>
+      <option value="deadline">Deadline</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div class="field"><label>Note <span class="muted">(optional)</span></label><textarea id="form-note" rows="2"></textarea></div>
+  <div class="actions">
+    <button class="btn btn-primary" onclick="saveEvent()">Save</button>
+    <button class="btn btn-ghost" onclick="closeForm()">Cancel</button>
+    <button id="delete-btn" class="btn btn-danger" onclick="deleteEvent()">Delete</button>
+  </div>
+</div>
+`, '<script src="/calendar.js"></script>');
+
+export const notes = () => page('Notes', `
+<h1>Notes</h1>
+<p class="muted">Saved in your browser. Private to this device.</p>
+<div class="notes-bar">
+  <button class="tab notes-tab active" data-m="edit" onclick="setNotesMode('edit')">Edit</button>
+  <button class="tab notes-tab" data-m="preview" onclick="setNotesMode('preview')">Preview</button>
+  <span id="notes-count" class="notes-count"></span>
+  <span id="notes-status" class="notes-status">Saved</span>
+  <button class="btn" onclick="downloadNotes('md')">&#8595; .md</button>
+  <button class="btn" onclick="downloadNotes('txt')">&#8595; .txt</button>
+</div>
+<div id="notes-editor">
+  <textarea id="notes-input" placeholder="# Title&#10;&#10;Write in **markdown** or plain text..."></textarea>
+</div>
+<div id="notes-preview" style="display:none"></div>
+`, '<script src="/notes.js"></script>');
+
+export const about = () => page('About', `
+<h1>About</h1>
+<p>I'm Hamit, a software developer based somewhere with a good internet connection. I build tools, break them, fix them, and occasionally write about what I learned along the way.</p>
+<p>I care about software that does exactly what it says, loads fast, and respects the person using it. This site is an example of that.</p>
+<h2>Work</h2>
+<p>I work mostly on the web &mdash; backend systems, developer tooling, and the occasional front-end when needed. I'm comfortable with Python, JavaScript, and a few others collected along the way.</p>
+<h2>Contact</h2>
+<p>The best way to reach me is through the <a href="/contact">contact page</a>.</p>
+`);
+
+export const contact = () => page('Contact', `
+<h1>Contact</h1>
+<p>The best ways to reach me:</p>
+<ul>
+  <li>Email &mdash; <a href="mailto:[email protected]">[email protected]</a></li>
+  <li>LinkedIn &mdash; <a href="https://linkedin.com/in/REPLACE-ME" target="_blank" rel="noopener">linkedin.com/in/REPLACE-ME</a></li>
+  <li>GitHub &mdash; <a href="https://github.com/REPLACE-ME" target="_blank" rel="noopener">github.com/REPLACE-ME</a></li>
+  <li>Phone &mdash; <a href="tel:+44XXXXXXXXXX">+44 XXXX XXXXXX</a></li>
+</ul>
+`);
+
+export const notFound = () => page('404', `
+<h1>404</h1>
+<p>Page not found. <a href="/">Go home.</a></p>
+`);

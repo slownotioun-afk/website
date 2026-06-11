@@ -1,0 +1,52 @@
+# ═══════════════════════════════════════════════════════════════
+#  systemd unit — auto-start the Node.js website on boot
+#  Install to: /etc/systemd/system/website.service
+#
+#  Commands:
+#    sudo systemctl enable website   # auto-start on boot
+#    sudo systemctl start  website   # start now
+#    sudo systemctl status website   # check status / logs
+#    sudo journalctl -u website -f   # follow logs
+# ═══════════════════════════════════════════════════════════════
+
+[Unit]
+Description=hamit.org website (Node.js)
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+# REPLACE: path where you cloned/uploaded the project
+WorkingDirectory=/var/www/hamit
+
+# REPLACE: full path to your node binary (find with: which node)
+ExecStart=/usr/bin/node dist/server.js
+
+# Restart automatically if the process crashes
+Restart=on-failure
+RestartSec=5
+
+# Run as a non-root user for security
+# REPLACE: 'www-data' or create a dedicated user: useradd -r -s /bin/false hamit
+User=www-data
+Group=www-data
+
+# Environment variables
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOST=0.0.0.0
+
+# Harden the service (optional but recommended)
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/www/hamit/logs
+
+# Standard output goes to journald
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=hamit-website
+
+[Install]
+WantedBy=multi-user.target

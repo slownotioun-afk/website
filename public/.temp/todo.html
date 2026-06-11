@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do — Hamit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f2f1f0;
+      color: #111;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      line-height: 1.65;
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    @media (max-width: 600px) {
+      body { padding: 20px 14px 60px; font-size: 15px; }
+    }
+
+    nav {
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      margin-bottom: 40px;
+      color: #444;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+    }
+    nav a { color: #2a5db0; text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+    nav span { margin: 0 2px; color: #888; }
+
+    h1 {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .page-desc {
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 28px;
+    }
+
+    .add-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .add-row input[type="text"] {
+      flex: 1;
+      min-width: 140px;
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background: #fafaf9;
+      color: #111;
+      outline: none;
+    }
+    .add-row input[type="text"]:focus { border-color: #2a5db0; }
+    .add-row select {
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background: #fafaf9;
+      color: #444;
+      cursor: pointer;
+      outline: none;
+    }
+    .add-row button {
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      padding: 8px 16px;
+      background: #2a5db0;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .add-row button:hover { background: #1e4a8e; }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 24px;
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 4px 10px;
+      cursor: pointer;
+      color: #555;
+      font-size: 13px;
+      font-family: system-ui, sans-serif;
+    }
+    .filter-btn.active, .filter-btn:hover { border-color: #2a5db0; color: #2a5db0; }
+    .clear-done {
+      margin-left: auto;
+      background: none;
+      border: none;
+      font-size: 12px;
+      color: #aaa;
+      cursor: pointer;
+      font-family: system-ui, sans-serif;
+    }
+    .clear-done:hover { color: #c0392b; }
+
+    .list-section { margin-bottom: 32px; }
+    .section-label {
+      font-family: system-ui, sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #999;
+      margin-bottom: 10px;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #e8e6e4;
+    }
+    .todo-item:last-child { border-bottom: none; }
+    .todo-item input[type="checkbox"] {
+      flex-shrink: 0;
+      accent-color: #2a5db0;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .todo-text {
+      flex: 1;
+      font-size: 15px;
+      word-break: break-word;
+    }
+    .todo-text.done { text-decoration: line-through; color: #aaa; }
+    .todo-del {
+      font-family: system-ui, sans-serif;
+      font-size: 15px;
+      color: #ccc;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0 4px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .todo-del:hover { color: #c0392b; }
+
+    .empty-msg {
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      color: #bbb;
+      padding: 12px 0;
+    }
+
+    footer {
+      margin-top: 64px;
+      padding-top: 20px;
+      border-top: 1px solid #ccc;
+      font-family: system-ui, sans-serif;
+      font-size: 12px;
+      color: #888;
+    }
+    footer a { color: #2a5db0; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer span { margin: 0 2px; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/">home</a><span>|</span>
+    <a href="/projects">projects</a><span>|</span>
+    <a href="/resources">resources</a><span>|</span>
+    <a href="/todo">to-do</a><span>|</span>
+    <a href="/calendar">calendar</a><span>|</span>
+    <a href="/about">about</a><span>|</span>
+    <a href="/contact">contact</a>
+  </nav>
+
+  <h1>To-Do</h1>
+  <p class="page-desc">Saved in your browser. Private to this device.</p>
+
+  <div class="add-row">
+    <input type="text" id="new-text" placeholder="New item…" autocomplete="off" />
+    <select id="new-list">
+      <option value="inbox">Inbox</option>
+      <option value="work">Work</option>
+      <option value="personal">Personal</option>
+      <option value="someday">Someday</option>
+    </select>
+    <button id="add-btn">Add</button>
+  </div>
+
+  <div class="controls">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="inbox">Inbox</button>
+    <button class="filter-btn" data-filter="work">Work</button>
+    <button class="filter-btn" data-filter="personal">Personal</button>
+    <button class="filter-btn" data-filter="someday">Someday</button>
+    <button class="filter-btn" data-filter="done">Done</button>
+    <button class="clear-done" id="clear-done">clear done</button>
+  </div>
+
+  <div id="list-container"></div>
+
+  <footer>
+    &copy; 2026 Hamit &mdash;
+    <a href="/">home</a><span>|</span>
+    <a href="/about">about</a><span>|</span>
+    <a href="/contact">contact</a>
+  </footer>
+
+  <script>
+    const STORAGE_KEY = 'hamit_todo_v1';
+
+    function load() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+      catch { return []; }
+    }
+    function save(items) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    }
+
+    let items = load();
+    let filter = 'all';
+
+    function render() {
+      const container = document.getElementById('list-container');
+      container.innerHTML = '';
+
+      const visible = filter === 'all'
+        ? items.filter(i => !i.done)
+        : filter === 'done'
+          ? items.filter(i => i.done)
+          : items.filter(i => i.list === filter && !i.done);
+
+      if (visible.length === 0) {
+        const msg = document.createElement('p');
+        msg.className = 'empty-msg';
+        msg.textContent = filter === 'done' ? 'Nothing done yet.' : 'Nothing here.';
+        container.appendChild(msg);
+        return;
+      }
+
+      const groups = {};
+      visible.forEach(item => {
+        const key = (filter === 'all' || filter === 'done') ? item.list : filter;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(item);
+      });
+
+      const ORDER = ['inbox', 'work', 'personal', 'someday'];
+      const sortedKeys = Object.keys(groups).sort(
+        (a, b) => ORDER.indexOf(a) - ORDER.indexOf(b)
+      );
+
+      sortedKeys.forEach(listName => {
+        const listItems = groups[listName];
+        const section = document.createElement('div');
+        section.className = 'list-section';
+
+        if (filter === 'all' || filter === 'done') {
+          const label = document.createElement('div');
+          label.className = 'section-label';
+          label.textContent = listName;
+          section.appendChild(label);
+        }
+
+        listItems.forEach(item => {
+          const row = document.createElement('div');
+          row.className = 'todo-item';
+
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.checked = item.done;
+          cb.addEventListener('change', () => {
+            item.done = cb.checked;
+            save(items);
+            render();
+          });
+
+          const text = document.createElement('span');
+          text.className = 'todo-text' + (item.done ? ' done' : '');
+          text.textContent = item.text;
+
+          const del = document.createElement('button');
+          del.className = 'todo-del';
+          del.textContent = '✕';
+          del.title = 'Delete';
+          del.addEventListener('click', () => {
+            items = items.filter(i => i.id !== item.id);
+            save(items);
+            render();
+          });
+
+          row.appendChild(cb);
+          row.appendChild(text);
+          row.appendChild(del);
+          section.appendChild(row);
+        });
+
+        container.appendChild(section);
+      });
+    }
+
+    function addItem() {
+      const input = document.getElementById('new-text');
+      const listSel = document.getElementById('new-list');
+      const text = input.value.trim();
+      if (!text) return;
+      items.unshift({
+        id: Date.now(),
+        text,
+        list: listSel.value,
+        done: false,
+        created: new Date().toISOString()
+      });
+      save(items);
+      input.value = '';
+      render();
+    }
+
+    document.getElementById('add-btn').addEventListener('click', addItem);
+    document.getElementById('new-text').addEventListener('keydown', e => {
+      if (e.key === 'Enter') addItem();
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        filter = btn.dataset.filter;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        render();
+      });
+    });
+
+    document.getElementById('clear-done').addEventListener('click', () => {
+      if (!confirm('Remove all completed items?')) return;
+      items = items.filter(i => !i.done);
+      save(items);
+      render();
+    });
+
+    render();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Hamit</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: #e9e9e9;
+      color: #111;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      padding: 2.5rem 0 2rem;
+      font-size: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+
+    nav a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    nav a.active {
+      color: #111;
+      text-decoration: none;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    nav .sep {
+      color: #999;
+      margin: 0 0.15rem;
+    }
+
+    /* ── Main content ── */
+    main {
+      flex: 1;
+      padding-bottom: 3rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: bold;
+      margin-bottom: 1.4rem;
+      letter-spacing: -0.01em;
+    }
+
+    p {
+      font-size: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      color: #222;
+      margin-bottom: 0.85rem;
+      max-width: 520px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .section {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid #ccc;
+      padding: 1rem 0 2rem;
+      font-size: 13px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      color: #555;
+    }
+
+    footer a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    footer .sep {
+      margin: 0 0.15rem;
+      color: #999;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      nav {
+        padding: 1.5rem 0 1.25rem;
+        line-height: 1.9;
+        word-spacing: 0.05em;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <nav>
+      <a href="/">home</a><span class="sep"> | </span><a href="/projects">projects</a><span class="sep"> | </span><a href="/resources">resources</a><span class="sep"> | </span><a href="/to-do">to-do</a><span class="sep"> | </span><a href="/calendar">calendar</a><span class="sep"> | </span><a href="/about" class="active">about</a><span class="sep"> | </span><a href="/contact">contact</a>
+    </nav>
+
+    <main>
+      <h1>About</h1>
+
+      <div class="section">
+        <p>I'm Hamit, a software developer based somewhere with a good internet connection. I build tools, break them, fix them, and occasionally write about what I learned along the way.</p>
+        <p>I care about software that does exactly what it says, loads fast, and respects the person using it. This site is an example of that.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Work</div>
+        <p>I work mostly on the web — backend systems, developer tooling, and the occasional front-end when needed. I'm comfortable with Python, JavaScript, and a few others collected along the way.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Contact</div>
+        <p>The best way to reach me is through the <a href="/contact">contact page</a>.</p>
+      </div>
+    </main>
+
+    <footer>
+      &copy; 2026 Hamit &mdash; <a href="/">home</a><span class="sep"> | </span><a href="/about" class="active">about</a><span class="sep"> | </span><a href="/contact">contact</a>
+    </footer>
+
+  </div>
+</body>
+</html>

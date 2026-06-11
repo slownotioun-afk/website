@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Hamit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f2f1f0;
+      color: #111;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 680px;
+      margin: 60px auto;
+      padding: 0 24px 80px;
+    }
+
+    nav {
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      margin-bottom: 48px;
+      color: #444;
+    }
+    nav a { color: #2a5db0; text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+    nav span { margin: 0 2px; color: #888; }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .page-desc {
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    hr { border: none; border-top: 1px solid #ccc; margin: 32px 0; }
+
+    /* Project section */
+    .section-label {
+      font-family: system-ui, sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #999;
+      margin-bottom: 16px;
+    }
+
+    .project {
+      margin-bottom: 28px;
+    }
+
+    .project-title {
+      font-size: 1rem;
+      font-weight: bold;
+      font-family: system-ui, sans-serif;
+    }
+    .project-title a { color: #2a5db0; text-decoration: none; }
+    .project-title a:hover { text-decoration: underline; }
+
+    .project-meta {
+      font-family: system-ui, sans-serif;
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+
+    .project-desc {
+      font-size: 15px;
+      color: #333;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: system-ui, sans-serif;
+      font-size: 11px;
+      background: #e4e2e0;
+      color: #555;
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 4px;
+    }
+
+    footer {
+      margin-top: 64px;
+      padding-top: 20px;
+      border-top: 1px solid #ccc;
+      font-family: system-ui, sans-serif;
+      font-size: 12px;
+      color: #888;
+    }
+    footer a { color: #2a5db0; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer span { margin: 0 2px; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/">home</a><span>|</span>
+    <a href="/projects">projects</a><span>|</span>
+    <a href="/resources">resources</a><span>|</span>
+    <a href="/todo">to-do</a><span>|</span>
+    <a href="/calendar">calendar</a><span>|</span>
+    <a href="/about">about</a><span>|</span>
+    <a href="/contact">contact</a>
+  </nav>
+
+  <h1>Projects</h1>
+  <p class="page-desc">Things I've built or am currently working on.</p>
+
+  <div class="section-label">Active</div>
+
+  <div class="project">
+    <div class="project-title"><a href="#">hamit.org</a></div>
+    <div class="project-meta">2025 &mdash; <span class="tag">TypeScript</span> <span class="tag">Node</span></div>
+    <div class="project-desc">This website. Express + TypeScript, served via Cloudflare Tunnel. Intentionally no framework, no build step beyond tsc.</div>
+  </div>
+
+  <hr />
+
+  <div class="section-label">Past</div>
+
+  <p style="font-family:system-ui,sans-serif; font-size:14px; color:#999;">Nothing archived yet.</p>
+
+  <footer>
+    &copy; 2026 Hamit &mdash;
+    <a href="/">home</a><span>|</span>
+    <a href="/about">about</a><span>|</span>
+    <a href="/contact">contact</a>
+  </footer>
+
+</body>
+</html>
