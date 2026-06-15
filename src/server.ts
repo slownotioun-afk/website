@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { home, projects, resources, todo, calendar, notes, about, contact, notFound, bookshelf, sitemap, hobbies, search, dayPlanner } from './pages';
+import { home, projects, resources, todo, calendar, notes, about, contact, notFound, bookshelf, sitemap, hobbies, search, dayPlanner, tools, me } from './pages';
 const app = express();
 app.use(express.static(path.join(__dirname, '../public')));
 const routes: [string, () => string][] = [
@@ -9,6 +9,8 @@ const routes: [string, () => string][] = [
   ['/about', about], ['/contact', contact],
 ];
 routes.forEach(([r, fn]) => app.get(r, (_req, res) => res.send(fn())));
+app.get('/tools', (_req, res) => res.send(tools()));
+app.get('/me', (_req, res) => res.send(me()));
 app.get('/day-planner', (_req, res) => res.send(dayPlanner()));
 app.get('/search', (_req, res) => res.send(search()));
 app.get('/hobbies', (_req, res) => res.send(hobbies()));

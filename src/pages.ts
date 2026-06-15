@@ -174,14 +174,13 @@ export const sitemap = () => page('Sitemap', `
 <h1 style="margin-bottom:1.5rem">Sitemap</h1>
 
 <section style="margin-bottom:2rem">
-  <h2 style="font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:0.75rem">Main navigation</h2>
+  <h2 style="font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:0.75rem">Main</h2>
   <ul style="list-style:none;padding:0;margin:0">
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/">Home</a> <span style="color:var(--muted);font-size:0.875rem">— Landing page and introduction.</span></li>
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/projects">Projects</a> <span style="color:var(--muted);font-size:0.875rem">— A selection of personal and professional projects.</span></li>
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/resources">Resources</a> <span style="color:var(--muted);font-size:0.875rem">— Curated books, videos, webpages, and other references.</span></li>
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/about">About</a> <span style="color:var(--muted);font-size:0.875rem">— About me.</span></li>
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/contact">Contact</a> <span style="color:var(--muted);font-size:0.875rem">— Get in touch.</span></li>
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/hobbies">Hobbies</a> <span style="color:var(--muted);font-size:0.875rem">— Things I do outside of work.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/">Home</a> <span style="color:var(--muted);font-size:0.875rem">— Landing page.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/tools">Tools</a> <span style="color:var(--muted);font-size:0.875rem">— All browser-based utilities.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/me">Me</a> <span style="color:var(--muted);font-size:0.875rem">— About, contact, hobbies, projects, resources.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/search">Search</a> <span style="color:var(--muted);font-size:0.875rem">— Search across all pages and your saved data.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/sitemap">Sitemap</a> <span style="color:var(--muted);font-size:0.875rem">— This page.</span></li>
   </ul>
 </section>
 
@@ -189,18 +188,21 @@ export const sitemap = () => page('Sitemap', `
   <h2 style="font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:0.75rem">Tools</h2>
   <ul style="list-style:none;padding:0;margin:0">
     <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/todo">To-do</a> <span style="color:var(--muted);font-size:0.875rem">— Personal task list.</span></li>
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/calendar">Calendar</a> <span style="color:var(--muted);font-size:0.875rem">— Personal calendar with event management.</span></li>
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/notes">Notes</a> <span style="color:var(--muted);font-size:0.875rem">— Distraction-free markdown notes, saved in your browser.</span></li>
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/bookshelf">Bookshelf</a> <span style="color:var(--muted);font-size:0.875rem">— Track books across Reading, Read, and Want to read shelves.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/calendar">Calendar</a> <span style="color:var(--muted);font-size:0.875rem">— Event management and scheduling.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/notes">Notes</a> <span style="color:var(--muted);font-size:0.875rem">— Distraction-free markdown notes.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/bookshelf">Bookshelf</a> <span style="color:var(--muted);font-size:0.875rem">— Track books across Reading, Read, and Want to read.</span></li>
     <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/day-planner">Day Planner</a> <span style="color:var(--muted);font-size:0.875rem">— Plan your 24-hour day in colour-coded blocks.</span></li>
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/search">Search</a> <span style="color:var(--muted);font-size:0.875rem">— Search across all pages and your saved data.</span></li>
   </ul>
 </section>
 
 <section style="margin-bottom:2rem">
-  <h2 style="font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:0.75rem">Meta</h2>
+  <h2 style="font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:0.75rem">Me</h2>
   <ul style="list-style:none;padding:0;margin:0">
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/sitemap">Sitemap</a> <span style="color:var(--muted);font-size:0.875rem">— This page — a human-readable index of the entire site.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/about">About</a> <span style="color:var(--muted);font-size:0.875rem">— Who I am and what I do.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/contact">Contact</a> <span style="color:var(--muted);font-size:0.875rem">— Get in touch.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/hobbies">Hobbies</a> <span style="color:var(--muted);font-size:0.875rem">— Things I do outside of work.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/projects">Projects</a> <span style="color:var(--muted);font-size:0.875rem">— Things I have built or am working on.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/resources">Resources</a> <span style="color:var(--muted);font-size:0.875rem">— Books, videos, and other references.</span></li>
   </ul>
 </section>
 `);
@@ -289,3 +291,27 @@ export const dayPlanner = () => page('Day Planner', `
 
 </div>
 `, '<script src="/day-planner.js"></script>');
+
+export const tools = () => page('Tools', `
+<h1>Tools</h1>
+<p class="muted">Browser-based utilities. All data stays on your device.</p>
+<ul style="list-style:none;padding:0;margin-top:1.5rem">
+  <li style="padding:0.5rem 0;border-bottom:1px solid var(--border)"><a href="/todo">To-do</a> <span class="muted">— Personal task list with categories.</span></li>
+  <li style="padding:0.5rem 0;border-bottom:1px solid var(--border)"><a href="/calendar">Calendar</a> <span class="muted">— Event management and scheduling.</span></li>
+  <li style="padding:0.5rem 0;border-bottom:1px solid var(--border)"><a href="/notes">Notes</a> <span class="muted">— Distraction-free markdown notes.</span></li>
+  <li style="padding:0.5rem 0;border-bottom:1px solid var(--border)"><a href="/bookshelf">Bookshelf</a> <span class="muted">— Track books across Reading, Read, and Want to read.</span></li>
+  <li style="padding:0.5rem 0;border-bottom:1px solid var(--border)"><a href="/day-planner">Day Planner</a> <span class="muted">— Plan your 24-hour day in colour-coded blocks.</span></li>
+</ul>
+`);
+
+export const me = () => page('Me', `
+<h1>Me</h1>
+<p class="muted">A few pages about who I am and what I'm interested in.</p>
+<ul style="list-style:none;padding:0;margin-top:1.5rem">
+  <li style="padding:0.5rem 0;border-bottom:1px solid var(--border)"><a href="/about">About</a> <span class="muted">— Who I am and what I do.</span></li>
+  <li style="padding:0.5rem 0;border-bottom:1px solid var(--border)"><a href="/contact">Contact</a> <span class="muted">— Get in touch.</span></li>
+  <li style="padding:0.5rem 0;border-bottom:1px solid var(--border)"><a href="/hobbies">Hobbies</a> <span class="muted">— Things I do outside of work.</span></li>
+  <li style="padding:0.5rem 0;border-bottom:1px solid var(--border)"><a href="/projects">Projects</a> <span class="muted">— Things I've built or am working on.</span></li>
+  <li style="padding:0.5rem 0;border-bottom:1px solid var(--border)"><a href="/resources">Resources</a> <span class="muted">— Books, videos, and other references.</span></li>
+</ul>
+`);
