@@ -1,153 +1,149 @@
 (function () {
   'use strict';
 
-  // ── Static page index (grep equivalent, client-side) ──────────────────────
-  var PAGES = [
-    { path: '/',           title: 'Home',       text: 'software developer build things break things write about it intentionally minimal loads fast' },
-    { path: '/projects',   title: 'Projects',   text: 'projects built working on active past hamit.org typescript node express cloudflare tunnel tsc' },
-    { path: '/resources',  title: 'Resources',  text: 'resources books videos webpages pragmatic programmer sicp structure interpretation computer programs abelson sussman thomas hunt' },
-    { path: '/about',      title: 'About',      text: 'about hamit software developer web backend systems developer tooling python javascript' },
-    { path: '/contact',    title: 'Contact',    text: 'contact email linkedin github phone' },
-    { path: '/hobbies',    title: 'Hobbies',    text: 'hobbies things outside code' },
-    { path: '/todo',       title: 'To-Do',      text: 'todo tasks inbox work personal someday done' },
-    { path: '/calendar',   title: 'Calendar',   text: 'calendar events schedule upcoming work personal deadline' },
-    { path: '/notes',      title: 'Notes',      text: 'notes markdown plain text editor preview download' },
-    { path: '/bookshelf',  title: 'Bookshelf',  text: 'bookshelf books reading read want to read rating shelf author title year' },
-    { path: '/sitemap',    title: 'Sitemap',    text: 'sitemap index all pages navigation tools meta' },
-    { path: '/search',     title: 'Search',     text: 'search find grep across site' },
-  ];
-
-  // ── localStorage keys and how to extract searchable text ─────────────────
-  function localResults(q) {
-    var out = [];
-    var ql = q.toLowerCase();
-
-    // Bookshelf
-    try {
-      var books = JSON.parse(localStorage.getItem('bookshelf') || '[]');
-      books.forEach(function (b) {
-        var hay = ((b.title || '') + ' ' + (b.author || '') + ' ' + (b.note || '') + ' ' + (b.shelf || '')).toLowerCase();
-        if (hay.indexOf(ql) !== -1) {
-          out.push({
-            path: '/bookshelf',
-            label: 'Bookshelf',
-            snippet: '\u201c' + b.title + '\u201d by ' + b.author + (b.note ? ' \u2014 ' + b.note : '')
-          });
-        }
-      });
-    } catch(e) {}
-
-    // Todo
-    try {
-      var todos = JSON.parse(localStorage.getItem('todos') || '[]');
-      todos.forEach(function (t) {
-        var hay = ((t.text || '') + ' ' + (t.cat || '')).toLowerCase();
-        if (hay.indexOf(ql) !== -1) {
-          out.push({
-            path: '/todo',
-            label: 'To-Do',
-            snippet: t.text + (t.cat ? ' [' + t.cat + ']' : '') + (t.done ? ' \u2714' : '')
-          });
-        }
-      });
-    } catch(e) {}
-
-    // Notes (plain text search)
-    try {
-      var noteText = localStorage.getItem('notes') || '';
-      if (noteText.toLowerCase().indexOf(ql) !== -1) {
-        // Find surrounding context
-        var idx = noteText.toLowerCase().indexOf(ql);
-        var start = Math.max(0, idx - 60);
-        var end   = Math.min(noteText.length, idx + q.length + 60);
-        var snippet = (start > 0 ? '…' : '') + noteText.slice(start, end).replace(/\n/g, ' ') + (end < noteText.length ? '…' : '');
-        out.push({ path: '/notes', label: 'Notes', snippet: snippet });
-      }
-    } catch(e) {}
-
-    return out;
-  }
-
-  // ── Render ────────────────────────────────────────────────────────────────
   function esc(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   function highlight(text, q) {
     var re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
-    return esc(text).replace(re, '<mark style="background:rgba(255,200,0,.4);border-radius:2px">$1</mark>');
+    return esc(text).replace(re, '<mark style="background:rgba(255,200,0,.4);border-radius:2px;padding:0 1px">$1</mark>');
   }
 
-  function render(q) {
-    var ql = q.toLowerCase().trim();
-    if (!ql) {
-      document.getElementById('sr-static').innerHTML = '';
-      document.getElementById('sr-local').innerHTML  = '';
+  function context(text, q) {
+    var words = text.replace(/\s+/g,' ').split(' ');
+    var ql    = q.toLowerCase();
+    var out   = [];
+    var seen  = {};
+    for (var i = 0; i < words.length; i++) {
+      if (words[i].toLowerCase().indexOf(ql) !== -1) {
+        var s = Math.max(0, i - 2);
+        var e = Math.min(words.length - 1, i + 2);
+        if (seen[s]) continue;
+        seen[s] = true;
+        out.push((s > 0 ? '…' : '') + words.slice(s, e + 1).join(' ') + (e < words.length - 1 ? '…' : ''));
+        if (out.length >= 3) break;
+      }
+    }
+    return out;
+  }
+
+  function localResults(q) {
+    var out = [];
+    var ql  = q.toLowerCase();
+
+    try {
+      var books = JSON.parse(localStorage.getItem('bookshelf') || '[]');
+      books.forEach(function (b) {
+        var hay = ((b.title||'') + ' ' + (b.author||'') + ' ' + (b.note||'') + ' ' + (b.shelf||'')).toLowerCase();
+        if (hay.indexOf(ql) !== -1) {
+          var full = [b.title, 'by', b.author, b.note].filter(Boolean).join(' ');
+          var snips = context(full, q);
+          out.push({ path: '/bookshelf', label: 'Bookshelf', snippets: snips.length ? snips : [full.slice(0,80)] });
+        }
+      });
+    } catch(e) {}
+
+    try {
+      var todos = JSON.parse(localStorage.getItem('todos') || '[]');
+      todos.forEach(function (t) {
+        var hay = ((t.text||'') + ' ' + (t.cat||'')).toLowerCase();
+        if (hay.indexOf(ql) !== -1) {
+          var full = t.text + (t.cat ? ' [' + t.cat + ']' : '');
+          var snips = context(full, q);
+          out.push({ path: '/todo', label: 'To-Do', snippets: snips.length ? snips : [full.slice(0,80)] });
+        }
+      });
+    } catch(e) {}
+
+    try {
+      var noteText = localStorage.getItem('notes') || '';
+      if (noteText.toLowerCase().indexOf(ql) !== -1) {
+        var snips = context(noteText.replace(/\n/g,' '), q);
+        out.push({ path: '/notes', label: 'Notes', snippets: snips.length ? snips : [noteText.slice(0,80)] });
+      }
+    } catch(e) {}
+
+    return out;
+  }
+
+  function setHTML(id, html) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  }
+
+  function renderList(items, q, isLocal) {
+    if (!items.length) {
+      return '<p style="color:var(--muted);font-size:.875rem">' +
+        (isLocal ? 'Nothing found in your bookshelf, tasks, or notes.' : 'No pages matched.') + '</p>';
+    }
+    var html = '<ul style="list-style:none;padding:0;margin:0 0 2rem">';
+    items.forEach(function (r) {
+      html += '<li style="padding:.6rem 0;border-bottom:1px solid var(--border)">';
+      html += '<a href="' + esc(r.path) + '" style="font-weight:600">'
+            + highlight(isLocal ? r.label : r.title, q) + '</a>';
+      var snips = r.snippets || [];
+      if (snips.length) {
+        html += '<div style="margin-top:.25rem">';
+        snips.forEach(function (s) {
+          html += '<div style="font-size:.8rem;color:var(--muted);line-height:1.5">'
+                + highlight(s, q) + '</div>';
+        });
+        html += '</div>';
+      }
+      html += '</li>';
+    });
+    html += '</ul>';
+    return html;
+  }
+
+  var currentQ = '';
+  var debounceTimer;
+
+  function doSearch(q) {
+    q = q.trim();
+    if (q === currentQ) return;
+    currentQ = q;
+
+    if (!q || q.length < 2) {
+      setHTML('sr-static', '');
+      setHTML('sr-local', '');
       return;
     }
 
-    // Static pages
-    var staticHits = PAGES.filter(function (p) {
-      return (p.title + ' ' + p.text).toLowerCase().indexOf(ql) !== -1;
-    });
+    var heading = '<h2 style="font-size:.875rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.75rem">';
 
-    var sh = '<h2 style="font-size:.875rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.75rem">Pages</h2>';
-    if (!staticHits.length) {
-      sh += '<p style="color:var(--muted);font-size:.875rem">No pages matched.</p>';
-    } else {
-      sh += '<ul style="list-style:none;padding:0;margin:0 0 2rem">';
-      staticHits.forEach(function (p) {
-        sh += '<li style="padding:.4rem 0;border-bottom:1px solid var(--border)">'
-            + '<a href="' + esc(p.path) + '">' + highlight(p.title, q) + '</a>'
-            + '</li>';
-      });
-      sh += '</ul>';
-    }
-    document.getElementById('sr-static').innerHTML = sh;
+    // Local immediately
+    setHTML('sr-local', heading + 'Your data</h2>' + renderList(localResults(q), q, true));
 
-    // Local data
-    var localHits = localResults(q);
-    var lh = '<h2 style="font-size:.875rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.75rem">Your data</h2>';
-    if (!localHits.length) {
-      lh += '<p style="color:var(--muted);font-size:.875rem">Nothing found in your bookshelf, tasks, or notes.</p>';
-    } else {
-      lh += '<ul style="list-style:none;padding:0;margin:0">';
-      localHits.forEach(function (r) {
-        lh += '<li style="padding:.4rem 0;border-bottom:1px solid var(--border)">'
-            + '<a href="' + esc(r.path) + '" style="font-size:.8rem;color:var(--muted);text-decoration:none">' + esc(r.label) + '</a><br>'
-            + '<span style="font-size:.875rem">' + highlight(r.snippet, q) + '</span>'
-            + '</li>';
+    // Server
+    setHTML('sr-static', heading + 'Pages</h2><p style="color:var(--muted);font-size:.875rem">Searching…</p>');
+    fetch('/api/search?q=' + encodeURIComponent(q))
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        setHTML('sr-static', heading + 'Pages</h2>' + renderList(data.results || [], q, false));
+      })
+      .catch(function () {
+        setHTML('sr-static', heading + 'Pages</h2><p style="color:var(--muted);font-size:.875rem">Search unavailable.</p>');
       });
-      lh += '</ul>';
-    }
-    document.getElementById('sr-local').innerHTML = lh;
   }
 
-  // ── Init ──────────────────────────────────────────────────────────────────
   window.doSearch = function () {
-    render(document.getElementById('q').value);
+    doSearch(document.getElementById('q').value);
   };
 
   document.addEventListener('DOMContentLoaded', function () {
     var inp = document.getElementById('q');
-
-    // Run search on Enter
     inp.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') render(inp.value);
+      if (e.key === 'Enter') doSearch(inp.value);
     });
-
-    // Live search as you type (debounced)
-    var timer;
     inp.addEventListener('input', function () {
-      clearTimeout(timer);
-      timer = setTimeout(function () { render(inp.value); }, 200);
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function () { doSearch(inp.value); }, 250);
     });
-
-    // If arriving with ?q= in URL
     var params = new URLSearchParams(window.location.search);
     var q = params.get('q') || '';
-    if (q) { inp.value = q; render(q); }
-
+    if (q) { inp.value = q; doSearch(q); }
     inp.focus();
   });
 })();
