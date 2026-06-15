@@ -181,6 +181,7 @@ export const sitemap = () => page('Sitemap', `
     <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/resources">Resources</a> <span style="color:var(--muted);font-size:0.875rem">— Curated books, videos, webpages, and other references.</span></li>
     <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/about">About</a> <span style="color:var(--muted);font-size:0.875rem">— About me.</span></li>
     <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/contact">Contact</a> <span style="color:var(--muted);font-size:0.875rem">— Get in touch.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/hobbies">Hobbies</a> <span style="color:var(--muted);font-size:0.875rem">— Things I do outside of work.</span></li>
   </ul>
 </section>
 
@@ -188,9 +189,11 @@ export const sitemap = () => page('Sitemap', `
   <h2 style="font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:0.75rem">Tools</h2>
   <ul style="list-style:none;padding:0;margin:0">
     <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/todo">To-do</a> <span style="color:var(--muted);font-size:0.875rem">— Personal task list.</span></li>
-    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/calendar">Calendar</a> <span style="color:var(--muted);font-size:0.875rem">— Personal calendar with event management and ICS import/export.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/calendar">Calendar</a> <span style="color:var(--muted);font-size:0.875rem">— Personal calendar with event management.</span></li>
     <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/notes">Notes</a> <span style="color:var(--muted);font-size:0.875rem">— Distraction-free markdown notes, saved in your browser.</span></li>
     <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/bookshelf">Bookshelf</a> <span style="color:var(--muted);font-size:0.875rem">— Track books across Reading, Read, and Want to read shelves.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/day-planner">Day Planner</a> <span style="color:var(--muted);font-size:0.875rem">— Plan your 24-hour day in colour-coded blocks.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/search">Search</a> <span style="color:var(--muted);font-size:0.875rem">— Search across all pages and your saved data.</span></li>
   </ul>
 </section>
 
@@ -216,3 +219,73 @@ export const search = () => page('Search', `
 <div id="sr-static"></div>
 <div id="sr-local"></div>
 `, '<script src="/search.js"></script>');
+
+export const dayPlanner = () => page('Day Planner', `
+<h1 style="margin-bottom:0.25rem">Timer</h1>
+<p class="muted" style="margin-bottom:1.5rem">Plan your 24-hour day in colour-coded blocks. All data saved locally.</p>
+
+<div id="timer-app">
+
+  <!-- Settings bar -->
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1.25rem">
+    <label style="font-size:.875rem;color:var(--muted)">Interval (min)
+      <input id="t-interval" type="number" value="30" min="1" max="120"
+        style="width:70px;margin-left:.35rem;padding:.25rem .4rem;border:1px solid var(--border);border-radius:3px;font:inherit;font-size:.875rem">
+    </label>
+    <button onclick="applyInterval()" style="padding:.25rem .7rem;font:inherit;font-size:.875rem;border:1px solid var(--border);border-radius:3px;cursor:pointer">Apply</button>
+    <button onclick="clearAll()" style="padding:.25rem .7rem;font:inherit;font-size:.875rem;border:1px solid var(--border);border-radius:3px;cursor:pointer;color:var(--muted)">Clear all</button>
+  </div>
+
+  <!-- Activity definitions -->
+  <div style="margin-bottom:1.25rem">
+    <div style="font-size:.875rem;color:var(--muted);margin-bottom:.5rem">Activities</div>
+    <div id="act-list" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem"></div>
+    <div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center">
+      <input id="act-name" type="text" placeholder="Activity name" style="padding:.25rem .5rem;border:1px solid var(--border);border-radius:3px;font:inherit;font-size:.875rem;width:150px">
+      <select id="act-type" style="padding:.25rem .4rem;border:1px solid var(--border);border-radius:3px;font:inherit;font-size:.875rem">
+        <option value="work">Work</option>
+        <option value="leisure">Leisure</option>
+        <option value="pause">Pause</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input id="act-color" type="color" value="#3b82f6" style="width:32px;height:28px;padding:1px;border:1px solid var(--border);border-radius:3px;cursor:pointer">
+      <button onclick="addActivity()" style="padding:.25rem .7rem;font:inherit;font-size:.875rem;background:var(--fg);color:var(--bg);border:none;border-radius:3px;cursor:pointer">+ Add</button>
+    </div>
+  </div>
+
+  <!-- 24h strip -->
+  <div style="margin-bottom:.4rem;display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted)">
+    <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+  </div>
+  <div id="day-strip" style="display:flex;height:48px;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:.25rem;cursor:crosshair"></div>
+  <div id="strip-labels" style="display:flex;margin-bottom:1.5rem;font-size:.7rem;color:var(--muted);overflow:hidden"></div>
+
+  <!-- Legend / summary -->
+  <div id="summary" style="margin-bottom:1.5rem"></div>
+
+  <!-- Selected slot editor -->
+  <div id="slot-editor" style="display:none;border:1px solid var(--border);border-radius:4px;padding:.75rem;margin-bottom:1.5rem;max-width:420px">
+    <div style="font-size:.875rem;font-weight:600;margin-bottom:.5rem" id="slot-heading"></div>
+    <div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center">
+      <label style="font-size:.8rem;color:var(--muted)">Assign activity:</label>
+      <select id="slot-act-select" style="padding:.25rem .4rem;border:1px solid var(--border);border-radius:3px;font:inherit;font-size:.875rem"></select>
+      <button onclick="assignSlot()" style="padding:.25rem .6rem;font:inherit;font-size:.875rem;background:var(--fg);color:var(--bg);border:none;border-radius:3px;cursor:pointer">Set</button>
+      <button onclick="clearSlot()" style="padding:.25rem .6rem;font:inherit;font-size:.875rem;border:1px solid var(--border);border-radius:3px;cursor:pointer;color:var(--muted)">Clear</button>
+      <button onclick="closeEditor()" style="padding:.25rem .6rem;font:inherit;font-size:.875rem;border:none;background:none;cursor:pointer;color:var(--muted)">✕</button>
+    </div>
+  </div>
+
+  <!-- Range assign -->
+  <div style="border:1px solid var(--border);border-radius:4px;padding:.75rem;max-width:420px">
+    <div style="font-size:.875rem;font-weight:600;margin-bottom:.5rem">Assign a range</div>
+    <div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center">
+      <input id="r-from" type="time" value="09:00" style="padding:.25rem .4rem;border:1px solid var(--border);border-radius:3px;font:inherit;font-size:.875rem">
+      <span style="font-size:.8rem;color:var(--muted)">to</span>
+      <input id="r-to"   type="time" value="17:00" style="padding:.25rem .4rem;border:1px solid var(--border);border-radius:3px;font:inherit;font-size:.875rem">
+      <select id="r-act" style="padding:.25rem .4rem;border:1px solid var(--border);border-radius:3px;font:inherit;font-size:.875rem"></select>
+      <button onclick="assignRange()" style="padding:.25rem .6rem;font:inherit;font-size:.875rem;background:var(--fg);color:var(--bg);border:none;border-radius:3px;cursor:pointer">Assign</button>
+    </div>
+  </div>
+
+</div>
+`, '<script src="/day-planner.js"></script>');
