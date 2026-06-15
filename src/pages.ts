@@ -105,18 +105,20 @@ export const calendar = () => page('Calendar', `
 export const notes = () => page('Notes', `
 <h1>Notes</h1>
 <p class="muted">Saved in your browser. Private to this device.</p>
-<div class="notes-bar">
+<div class="notes-bar" style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem;">
   <button class="tab notes-tab active" data-m="edit" onclick="setNotesMode('edit')">Edit</button>
   <button class="tab notes-tab" data-m="preview" onclick="setNotesMode('preview')">Preview</button>
-  <span id="notes-count" class="notes-count"></span>
+  <span id="notes-count" style="margin-left:auto;font-size:.85rem;opacity:.6;"></span>
   <span id="notes-status" class="notes-status">Saved</span>
+
+
   <button class="btn" onclick="downloadNotes('md')">&#8595; .md</button>
   <button class="btn" onclick="downloadNotes('txt')">&#8595; .txt</button>
 </div>
 <div id="notes-editor">
-  <textarea id="notes-input" placeholder="# Title&#10;&#10;Write in **markdown** or plain text..."></textarea>
+  <textarea id="notes-input" style="width:100%;box-sizing:border-box;resize:vertical;padding:1rem;font-family:monospace;line-height:1.6;height:60vh;min-height:200px;background:#fff;color:#000;font-size:0.85rem;" placeholder="# Title&#10;&#10;Write in **markdown** or plain text..."></textarea>
 </div>
-<div id="notes-preview" style="display:none"></div>
+<div id="notes-preview" style="display:none;min-height:60vh;padding:1rem;border:1px solid #ccc;border-radius:6px;line-height:1.7;overflow-wrap:break-word;word-break:break-word;overflow:hidden;font-size:0.85rem;"></div>
 `, '<script src="/notes.js"></script>');
 
 export const about = () => page('About', `
@@ -143,4 +145,59 @@ export const contact = () => page('Contact', `
 export const notFound = () => page('404', `
 <h1>404</h1>
 <p>Page not found. <a href="/">Go home.</a></p>
+`);
+
+export const bookshelf = () => page('Bookshelf', `
+<h1 style="margin-bottom:0.25rem">Bookshelf</h1>
+<p id="bs-stats" style="color:var(--muted);font-size:0.875rem;margin-bottom:1.5rem"></p>
+
+<details id="bs-add-section" style="margin-bottom:2rem;border:1px solid var(--border);border-radius:4px;padding:0.75rem">
+  <summary style="cursor:pointer;font-weight:600;user-select:none">+ Add a book</summary>
+  <div style="margin-top:1rem;display:flex;flex-direction:column;gap:0.6rem;max-width:480px">
+    <input id="b-title"  type="text"   placeholder="Title *"  style="width:100%">
+    <input id="b-author" type="text"   placeholder="Author *" style="width:100%">
+    <select id="b-shelf" style="width:100%">
+      <option value="reading">Reading</option>
+      <option value="read">Read</option>
+      <option value="want">Want to read</option>
+    </select>
+    <input id="b-year" type="number" placeholder="Year finished (optional)" min="1000" max="2100" style="width:100%">
+    <textarea id="b-note" placeholder="Short note (optional)" style="width:100%;min-height:60px;resize:vertical"></textarea>
+    <button id="b-add" style="align-self:flex-start;padding:0.35rem 1rem">Add book</button>
+  </div>
+</details>
+
+<div id="bs-shelves"></div>
+`, '<script src="/bookshelf.js"></script>');
+
+export const sitemap = () => page('Sitemap', `
+<h1 style="margin-bottom:1.5rem">Sitemap</h1>
+
+<section style="margin-bottom:2rem">
+  <h2 style="font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:0.75rem">Main navigation</h2>
+  <ul style="list-style:none;padding:0;margin:0">
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/">Home</a> <span style="color:var(--muted);font-size:0.875rem">— Landing page and introduction.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/projects">Projects</a> <span style="color:var(--muted);font-size:0.875rem">— A selection of personal and professional projects.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/resources">Resources</a> <span style="color:var(--muted);font-size:0.875rem">— Curated books, videos, webpages, and other references.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/about">About</a> <span style="color:var(--muted);font-size:0.875rem">— About me.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/contact">Contact</a> <span style="color:var(--muted);font-size:0.875rem">— Get in touch.</span></li>
+  </ul>
+</section>
+
+<section style="margin-bottom:2rem">
+  <h2 style="font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:0.75rem">Tools</h2>
+  <ul style="list-style:none;padding:0;margin:0">
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/todo">To-do</a> <span style="color:var(--muted);font-size:0.875rem">— Personal task list.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/calendar">Calendar</a> <span style="color:var(--muted);font-size:0.875rem">— Personal calendar with event management and ICS import/export.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/notes">Notes</a> <span style="color:var(--muted);font-size:0.875rem">— Distraction-free markdown notes, saved in your browser.</span></li>
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/bookshelf">Bookshelf</a> <span style="color:var(--muted);font-size:0.875rem">— Track books across Reading, Read, and Want to read shelves.</span></li>
+  </ul>
+</section>
+
+<section style="margin-bottom:2rem">
+  <h2 style="font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:0.75rem">Meta</h2>
+  <ul style="list-style:none;padding:0;margin:0">
+    <li style="padding:0.4rem 0;border-bottom:1px solid var(--border)"><a href="/sitemap">Sitemap</a> <span style="color:var(--muted);font-size:0.875rem">— This page — a human-readable index of the entire site.</span></li>
+  </ul>
+</section>
 `);
