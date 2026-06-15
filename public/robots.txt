@@ -2,7 +2,7 @@
 
 # Standard crawlers
 User-agent: *
-Allow: /
+Disallow: /
 
 Sitemap: https://hamit.org/sitemap.xml
 

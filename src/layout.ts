@@ -1,4 +1,4 @@
-const NAV = `<nav><a href="/">home</a> | <a href="/projects">projects</a> | <a href="/resources">resources</a> | <a href="/todo">to-do</a> | <a href="/calendar">calendar</a> | <a href="/notes">notes</a> | <a href="/bookshelf">bookshelf</a> | <a href="/about">about</a> | <a href="/contact">contact</a> | <a href="/sitemap">sitemap</a></nav>`;
+const NAV = `<nav><a href="/">home</a> | <a href="/projects">projects</a> | <a href="/resources">resources</a> | <a href="/todo">to-do</a> | <a href="/calendar">calendar</a> | <a href="/notes">notes</a> | <a href="/bookshelf">bookshelf</a> | <a href="/about">about</a> | <a href="/contact">contact</a> | <a href="/hobbies">hobbies</a> | <a href="/sitemap">sitemap</a></nav>`;
 const FOOTER = `<footer>&copy; 2026 Hamit &mdash; <a href="/">home</a> | <a href="/about">about</a> | <a href="/contact">contact</a> | <a href="/sitemap">sitemap</a></footer>`;
 export function page(title: string, body: string, scripts = ''): string {
   return `<!DOCTYPE html>

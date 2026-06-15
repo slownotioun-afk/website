@@ -201,3 +201,8 @@ export const sitemap = () => page('Sitemap', `
   </ul>
 </section>
 `);
+
+export const hobbies = () => page('Hobbies', `
+<h1>Hobbies</h1>
+<p>Things I do when I'm not writing code.</p>
+`);
