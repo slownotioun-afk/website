@@ -206,3 +206,13 @@ export const hobbies = () => page('Hobbies', `
 <h1>Hobbies</h1>
 <p>Things I do when I'm not writing code.</p>
 `);
+
+export const search = () => page('Search', `
+<h1>Search</h1>
+<div style="display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap">
+  <input id="q" type="text" placeholder="Search…" autocomplete="off" style="flex:1;min-width:180px;padding:.35rem .6rem;border:1px solid var(--border);font:inherit;font-size:.9rem;border-radius:3px">
+  <button onclick="doSearch()" style="padding:.35rem .8rem;background:var(--fg);color:var(--bg);border:none;border-radius:3px;cursor:pointer;font:inherit">Search</button>
+</div>
+<div id="sr-static"></div>
+<div id="sr-local"></div>
+`, '<script src="/search.js"></script>');

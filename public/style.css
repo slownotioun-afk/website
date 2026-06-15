@@ -141,3 +141,22 @@ footer a:hover { text-decoration: underline; }
 #notes-input { width: 100%; min-height: 60vh; box-sizing: border-box; }
 #notes-preview { width: 100%; box-sizing: border-box; }
 .notes-bar { width: 100%; }
+
+/* ── Dark mode ── */
+[data-dark="1"] {
+  --fg: #e8e8e8;
+  --bg: #111;
+  --muted: #888;
+  --link: #6ba3f5;
+  --border: #2e2e2e;
+  --hover: #1e1e1e;
+  --input-bg: #1a1a1a;
+}
+[data-dark="1"] body { background: var(--bg); color: var(--fg); }
+[data-dark="1"] code { background: #1e1e1e; color: #e8e8e8; }
+[data-dark="1"] .day.other { background: #161616; color: #444; }
+[data-dark="1"] .day.today { background: #1a1a00; }
+[data-dark="1"] #notes-preview code { background: #1e1e1e; color: #e8e8e8; }
+[data-dark="1"] input, [data-dark="1"] select, [data-dark="1"] textarea {
+  background: #1a1a1a; color: var(--fg); border-color: var(--border);
+}
